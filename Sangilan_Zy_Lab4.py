@@ -1,9 +1,5 @@
 # 1 & 2. Calculate base raised to exponent, default base = 10
 def power(exponent, base=10):
-    """
-    Returns base raised to the given exponent.
-    Default value of base is 10 if not specified.
-    """
     return base ** exponent
 
 # 3. Sum all numbers in a list using arbitrary arguments (using arbitrary arguments)
