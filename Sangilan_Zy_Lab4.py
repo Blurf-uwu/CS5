@@ -34,4 +34,5 @@ def in_range(number, *args):
     else:
         return f"{number} is NOT within the range [{lower}, {upper}]"
     
+print(power(12,2))
 print_evens(1,2,3,4,5,6,7,8,9,9,9,9,99,10,10)

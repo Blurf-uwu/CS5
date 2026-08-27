@@ -1,5 +1,4 @@
 def get_weight_cost():
-    """Prompts user for package weight and returns the base shipping cost."""
     weight = float(input("Weight in kg: "))
     if 0 <= weight <= 5:
         return 50.00
@@ -13,7 +12,6 @@ def get_weight_cost():
 
 
 def get_destination_cost():
-    """Prompts user for destination and returns the destination surcharge."""
     destination = input("Domestic or International?: ").capitalize()
     if destination == "International":
         return 7.50
@@ -25,7 +23,6 @@ def get_destination_cost():
 
 
 def apply_priority(cost):
-    """Prompts user for priority choice and returns the final adjusted cost."""
     is_priority = input("Is it a priority shipment? (yes/no): ").capitalize()
     if is_priority == "Yes":
         return cost * 1.20
@@ -37,7 +34,6 @@ def apply_priority(cost):
 
 
 def calculate_shipping_cost():
-    """Calculates and returns the total shipping cost, or None on invalid input."""
     weight_cost = get_weight_cost()
     if weight_cost is None:
         return None
@@ -56,7 +52,6 @@ def calculate_shipping_cost():
 
 
 def main():
-    """Main loop: runs the shipping cost calculator until the user exits."""
     while True:
         total = calculate_shipping_cost()
 

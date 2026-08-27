@@ -25,7 +25,7 @@ while True:
     if is_priority == "Yes":
         total_shipping_cost *= 1.20
     elif is_priority == "No":
-        total_shipping_cost *= 1
+        total_shipping_cost *= 1 # pass can also be used
     else:
         print("invalid priority choice")
         continue
