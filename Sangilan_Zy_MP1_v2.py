@@ -23,7 +23,7 @@ def calculate_weight_cost(weight):
 
 def get_destination():
     while True:
-        destination = input("Domestic or International?: ").strip().capitalize()
+        destination = input("Domestic or International?: ").capitalize()
         if destination in ("Domestic", "International"):
             return destination
         print("Error: Please enter 'Domestic' or 'International'.")
@@ -37,7 +37,7 @@ def calculate_destination_cost(destination):
 
 def get_priority():
     while True:
-        choice = input("Is it a priority shipment? (yes/no): ").strip().capitalize()
+        choice = input("Is it a priority shipment? (yes/no): ").capitalize()
         if choice in ("Yes", "No"):
             return choice == "Yes"
         print("Error: Please enter 'yes' or 'no'.")
@@ -62,20 +62,18 @@ def calculate_total_shipping_cost():
     return cost
 
 
-def main():
-    print("=== Shipping Cost Calculator ===")
-    while True:
-        try:
-            total = calculate_total_shipping_cost()
-            print(f"Total Shipping Cost: PHP {total:.2f}")
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            continue
 
-        again = input("Type 'exit' to quit, or press Enter to calculate again: ").strip().capitalize()
-        if again == "Exit":
-            print("Thank you for shipping with us!")
-            break
+print("=== Shipping Cost Calculator ===")
+while True:
+    try:
+        total = calculate_total_shipping_cost()
+        print(f"Total Shipping Cost: PHP {total:.2f}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        continue
 
+    again = input("Type 'exit' to quit, or press Enter to calculate again: ").strip().capitalize()
+    if again == "Exit":
+        print("Thank you for shipping with us!")
+        break
 
-main()

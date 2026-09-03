@@ -12,9 +12,9 @@ def get_input(prompt,type):
         try:
             val = type(ans)
             
-            if type == float or type == int:
+            if type == float:
                 if val <= 0:
-                    print("error: negative or zero distance or time")
+                    print("error: negative or zero input")
                     continue
             
             return val
