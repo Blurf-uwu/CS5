@@ -10,13 +10,13 @@ def calculate_fare(distance, vehicle_type, is_peak_hour):
     else:
         base_fare = 250.00
 
+    type_per_cost = {
+        "sedan":0.00,
+        "suv":50.00,
+        "premium":100.00
+    }
     vehicle_lower = vehicle_type.lower()
-    if vehicle_lower == "sedan":
-        surcharge = 0.00
-    elif vehicle_lower == "suv":
-        surcharge = 50.00
-    elif vehicle_lower == "premium":
-        surcharge = 100.00
+    surcharge = type_per_cost[vehicle_lower]
 
     total_fare = base_fare + surcharge
 
@@ -27,13 +27,13 @@ def calculate_fare(distance, vehicle_type, is_peak_hour):
 
 
 while True:
-    # 1. Distance Input & Validation
-    raw_distance = input("Enter the travel distance in km: ")
-    if raw_distance.lower() == "exit":
+    # 1. Distance Input & Errors
+    distance_input = input("Enter the travel distance in km: ")
+    if distance_input.lower() == "exit":
         break
         
     try:
-        distance = float(raw_distance)
+        distance = float(distance_input)
         if distance < 0:
             print("Error: Distance cannot be negative. Please try again.")
             continue
@@ -41,16 +41,16 @@ while True:
         print("Error: Invalid numeric input for distance. Please enter a number.")
         continue
 
-    # 2. Vehicle Type Input & Validation
+    # 2. Vehicle Type Input & Errors
     vehicle_input = input("Enter vehicle type ('Sedan', 'SUV', 'Premium'): ")
     if vehicle_input.lower() == "exit":
         break
         
     if vehicle_input.lower() not in ["sedan", "suv", "premium"]:
-        print("Error: Invalid vehicle type. Please enter 'Sedan', 'SUV', or 'Premium'.")
+        print(f"Error: Invalid vehicle type: {vehicle_input.lower().capitalize()}. Please enter 'Sedan', 'SUV', or 'Premium'.")
         continue
 
-    # 3. Peak Hour Input & Validation
+    # 3. Peak Hour Input & Errors
     peak_input = input("Is it peak hour? (Yes/No): ")
     if peak_input.lower() == "exit":
         break
@@ -58,12 +58,10 @@ while True:
     if peak_input.lower() not in ["yes", "no"]:
         print("Error: Invalid input for peak hour. Please enter 'Yes' or 'No'.")
         continue
-
-    # Boolean conversion for peak hour
     is_peak = (peak_input.lower() == "yes")
 
     # Calculation and Output
     fare = calculate_fare(distance, vehicle_input, is_peak)
     print(f"The total estimated fare is: P{fare:.2f}")
 
-print("[End Program]")
+print("[End Program]") 
