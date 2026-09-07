@@ -1,4 +1,4 @@
-# prices
+# prices for easier access
 COFFEE_PRICE = 120.00
 PASTRY_PRICE = 85.50
 TEA_PRICE = 90.00
@@ -46,8 +46,8 @@ while True:
         tea_count = quantity_validator("Enter quantity for Tea: ")
         
         while True:
-            discount_input = input("Eligible for Senior/PWD discount? (yes/no): ").strip().lower()
-            if discount_input in ("yes", "no"):
+            discount_input = input("Eligible for Senior/PWD discount? (yes/no): ").lower()
+            if discount_input in ["yes", "no"]:
                 is_eligible = (discount_input == "yes")
                 break
             print("Error: Please enter 'yes' or 'no'.")
