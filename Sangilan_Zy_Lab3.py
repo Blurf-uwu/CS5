@@ -1,5 +1,5 @@
 """ 
-Adapted from solution to LG 4.3.1 Navigate: 
+Adapted from solution to LG 1.4.3 Navigate: 
 
 num_tala=list()
 while True:
