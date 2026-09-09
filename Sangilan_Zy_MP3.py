@@ -8,7 +8,7 @@ def calculate_subtotal(coffee_count, pastry_count, tea_count):
     return (coffee_count * COFFEE_PRICE) + (pastry_count * PASTRY_PRICE) + (tea_count * TEA_PRICE)
 
 def quantity_validator(prompt):
-    """function to validate non-negative integer quantities."""
+    """function to validate non-integer and non-negative integer quantities."""
     while True:
         try:
             val = int(input(prompt))
@@ -26,6 +26,7 @@ while True:
         print("Thank you for using the KapeTayo POS!")
         break
 
+    #validates customer count input
     try:
         num_orders = int(batch_input)
         if num_orders <= 0:
@@ -38,6 +39,7 @@ while True:
     total_sales = 0.0
     customers_served = 0
     
+    # for loop based on customer count input
     for customer_num in range(1, num_orders + 1):
         print(f"--- Customer #: {customer_num} ---")
         

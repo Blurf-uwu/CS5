@@ -1,50 +1,45 @@
-# 1. Identify if a number is odd or even
-def is_odd_or_even(number):
-    if number % 2 == 0:
-        return f"{number} is Even"
-    else:
-        return f"{number} is Odd"
+""" 
+Adapted from solution to LG 4.3.1 Navigate: 
 
+num_tala=list()
+while True:
+inp=input(‘Ilagay ang numero:’)
+if inp==’done’: break
+value=float(inp)
+num_tala.append(value)
+ave=sum(num_tala)/len(num_tala)
+print(‘Average:’,ave)
 
-# 2. Compute for the square of a number
-def square(number):
-    return number ** 2
+"""
 
-
-# 3. Identify if a number is positive, negative, or zero
-def check_sign(number):
-    if number > 0:
-        return f"{number} is Positive"
-    elif number < 0:
-        return f"{number} is Negative"
-    else:
-        return f"{number} is Zero"
-
-
-# 4. Compute for the factorial of a number
-def factorial(number):
-    if number < 0:
-        return "Factorial is not defined for negative numbers."
-    elif number == 0 or number == 1:
-        return 1
-    else:
-        result = 1
-        for i in range(2, number + 1):
-            result *= i
-        return result
-
-
-# 5. Identify if a number is divisible by another number
-def is_divisible(number, divisor):
-    if divisor == 0:
-        return "Error: Cannot divide by zero."
-    if number % divisor == 0:
-        return f"{number} is divisible by {divisor}"
-    else:
-        return f"{number} is NOT divisible by {divisor}"
-
-
-# 6. Identify the greatest number among three values
-def greatest_of_three(a, b, c):
-    greatest = max(a, b, c)
-    return f"The greatest number among {a}, {b}, and {c} is: {greatest}"
+while True:
+    num_tala=list()
+    while True: #input loop unit user is done listing numbers
+        try:
+            inp=input("Maglagay ng numero (fin kung tapos na and list): ")
+            if inp.lower()=="fin": 
+                break
+            value=float(inp)
+            num_tala.append(value)
+        except ValueError:
+            print("invalid input. please try again")
+            continue
+    try: # to account for user finalizing list without any input
+        print(f"Maximum: {max(num_tala)}")
+        print(f"Minimum: {min(num_tala)}")
+    except ValueError:
+        print("please input at least one number")
+        continue
+    
+    # ask if user wants to end or start another instance
+    while True: 
+        try:
+            tapos_na = input("Nais mo na bang huminto (y/n)? ").lower()
+            if tapos_na == "y":
+                break
+            elif tapos_na == "n": 
+                break
+        except ValueError:
+            print("invalid input. please try again")
+            continue
+    if tapos_na == "y": break
