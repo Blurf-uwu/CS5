@@ -58,6 +58,7 @@ while True:
         print(f"Honor Roll (>= {class_average}) : {honor_roll}")
         print("================================================")
     
+    # Prompt to end program
     stop_question = input("would you like to end (y/n)?: ").lower()
     while True:
         if stop_question in ["y","n"]:
@@ -69,4 +70,5 @@ while True:
             print("please input a valid answer (y/n): ")
             continue
         
+# Ending message
 print("[END OF GRADE ANALYZER & HONOR ROLL TRACKER]")
