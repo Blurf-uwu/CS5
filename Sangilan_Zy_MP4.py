@@ -1,6 +1,7 @@
-# === GRADE ANALYZER & HONOR ROLL TRACKER ===
+"""
+GRADE ANALYZER & HONOR ROLL TRACKER
+"""
 
-# Dynamic Data Collection: Initialize an empty list called scores using list()
 scores = list()
 
 print("=== GRADE ANALYZER & HONOR ROLL TRACKER ===")
@@ -18,9 +19,9 @@ while True:
         grade = float(user_input)
         scores.append(grade)
     except ValueError:
-        print("[!] Invalid input! Please enter a numeric grade or 'done'.")
+        print("    [!] Invalid input! Please enter a numeric grade or 'done'.")
 
-# Empty List Safeguard: verify if any scores were entered using len(scores)
+# Verify if any scores were inputted
 if len(scores) == 0:
     print("No scores entered.")
 else:
@@ -30,13 +31,13 @@ else:
     sum_grades = sum(scores)
     class_average = sum_grades / total_students
 
-    # Honor Roll Extraction: scores strictly greater than or equal to Class Average
+    # Honor Roll
     honor_roll = list()
     for score in scores:
         if score >= class_average:
             honor_roll.append(score)
 
-    # List Sorting: sort both lists in ascending order using .sort()
+    # Sorting Lists
     scores.sort()
     honor_roll.sort()
 
