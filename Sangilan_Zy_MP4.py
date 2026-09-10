@@ -1,5 +1,7 @@
 """
 GRADE ANALYZER & HONOR ROLL TRACKER
+
+(I don't think this program necessitates functions)
 """
 stop = False
 while True:
@@ -67,4 +69,4 @@ while True:
             print("please input a valid answer (y/n): ")
             continue
         
-print("[END OF HONOR ROLL IDENTIFICATION]")
+print("[END OF GRADE ANALYZER & HONOR ROLL TRACKER]")
