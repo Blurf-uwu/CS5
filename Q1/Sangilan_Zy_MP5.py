@@ -92,6 +92,7 @@ while True:
     if stop: break
 
     Run_Cart()
+    
     # Prompt to end program
     stop_question = input("would you like to end (y/n)?: ").lower()
     while True:
