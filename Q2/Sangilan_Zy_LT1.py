@@ -550,7 +550,6 @@ def quick_sort(arr):
 
     _quick_sort_helper(0, len(arr) - 1)
 
-
 # ==============================================================================
 # STATS
 # ==============================================================================
@@ -614,7 +613,6 @@ def run_sort_demo(arr, algo_choice):
     print(f" Total swaps/writes: {swaps_count}")
     print("=" * 55 + "\n")
 
-
 # ==============================================================================
 # USER INPUT
 # ==============================================================================
@@ -634,7 +632,6 @@ def get_number_of_elements():
         except ValueError:
             print("  [!] Invalid input! Please enter a whole number (integer).\n")
 
-
 def get_sort_choice():
     """
     Prompt user for the type of sort.
@@ -652,7 +649,6 @@ def get_sort_choice():
             return int(choice)
         print("  [!] Invalid choice! Please enter a number from 1 to 5.")
 
-
 def ask_go_again():
     """
     Prompt user if they want to go again. Stop program if user says no.
@@ -664,7 +660,6 @@ def ask_go_again():
         elif ans in ("n", "no"):
             return False
         print("  [!] Please type 'y' for yes or 'n' for no.")
-
 
 # ==============================================================================
 # MAIN 
@@ -704,7 +699,6 @@ def main():
         if not ask_go_again():
             print("\nThank you for using the Sorting Visualizer! Goodbye.\n")
             break
-
 
 if __name__ == "__main__":
     try:
