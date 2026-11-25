@@ -8,9 +8,8 @@ README & NOTES
 
 1. PROGRAM OVERVIEW:
 --------------------
-This is an interactive terminal program that visualizes 5 canonical sorting
-algorithms: Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, and Quick
-Sort. 
+This is an interactive terminal program that visualizes 5 sorting algorithms: 
+Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, and Quick Sort. 
 
 This program uses ASCII star characters ('*') stacked vertically like a histogram, 
 where the height of the stars directly represents each number in a list.
@@ -104,9 +103,9 @@ import random
 # ==============================================================================
 # PARAMETERS & SETTINGS (FOR EASIER MODIFICATIONS)
 # ==============================================================================
-DELAY = 0.5             # x second pause between each step to show the process
-MAX_ELEMENTS = 10       # up to n elements for the list
-STAR_CHAR = "*"         # ASCII character used to draw the vertical bars
+DELAY = 0.1             # x second pause between each step to show the process
+MAX_ELEMENTS = 20       # up to n elements for the list
+STAR_CHAR = "o"         # ASCII character used to draw the vertical bars
 
 
 # ==============================================================================
