@@ -1,58 +1,58 @@
 # expr_processor.py
 # module 2 - checks parentheses and turns infix math into Polish (prefix) notation
+# (parChecker, tokenize and infix_to_prefix are from my MP4, cleaned up a bit)
 
 from stack_adt import Stack
 
 # how strong each operator is. bigger number = do it first
-PRECEDENCE = {
-    "^": 3,
-    "*": 2,
-    "/": 2,
-    "+": 1,
-    "-": 1,
-}
+PRECEDENCE = {"^": 3, "*": 2, "/": 2, "+": 1, "-": 1}
 
 
-def parChecker(expr):
+def parChecker(symbol_string):
     """
-    checks if the parentheses in expr are balanced.
-    every '(' gets pushed, every ')' pops one off. if we try to pop when the
-    stack is already empty that means there's an extra ')' so we fail early.
+    check if the parentheses in a string are balanced.
+
+    the string is read from left to right. every '(' is pushed onto a stack,
+    and every ')' pops one '(' off the stack. if we try to pop when the stack
+    is already empty, there are too many ')' so it fails early.
     returns True if balanced, False if not.
     """
     s = Stack()
 
-    for ch in expr:
-        if ch == "(":
-            s.push(ch)
-        elif ch == ")":
-            # early failure - a ')' showed up with no '(' to match it
+    for symbol in symbol_string:
+        if symbol == "(":
+            s.push(symbol)
+        elif symbol == ")":
+            # a ')' with nothing to match means it's unbalanced, stop right here
             if s.isEmpty():
                 return False
             s.pop()
 
-    # if anything is left over then some '(' never got closed
+    # balanced only if every '(' was matched
     return s.isEmpty()
 
 
 def tokenize(expr):
     """
-    splits an expression string into a list of tokens.
-    numbers like 12 or 3.5 and names like abc stay together as one token.
-    spaces get skipped. raises ValueError if there's a weird character.
+    split an expression into a list of tokens.
+
+    letters and digits that are next to each other are grouped into one
+    operand, so "AB + 10" becomes ['AB', '+', '10'] instead of
+    ['A', 'B', '+', '1', '0']. operators and parentheses are their own
+    tokens, and spaces are skipped. raises ValueError on weird characters.
     """
     tokens = []
-    current = ""  # used to build up numbers / variable names
+    current = ""
 
     for ch in expr:
-        if ch.isalnum() or ch == "." or ch == "_":
+        if ch.isalnum():
+            # still building the same operand
             current = current + ch
         else:
-            # we hit something that isn't part of a number/name so save what we have
+            # operand finished, save it before handling this character
             if current != "":
                 tokens.append(current)
                 current = ""
-
             if ch == " " or ch == "\t":
                 continue
             elif ch in PRECEDENCE or ch == "(" or ch == ")":
@@ -60,16 +60,11 @@ def tokenize(expr):
             else:
                 raise ValueError("invalid character in expression: '" + ch + "'")
 
-    # don't forget the last number/name
+    # save the last operand if the expression ends with one
     if current != "":
         tokens.append(current)
 
     return tokens
-
-
-def is_operand(token):
-    """returns True if the token is a number or variable (not an operator or paren)."""
-    return token not in PRECEDENCE and token != "(" and token != ")"
 
 
 def check_infix(tokens):
@@ -87,7 +82,7 @@ def check_infix(tokens):
         if expect_operand:
             if t == "(":
                 continue  # still waiting for an operand after a '('
-            elif is_operand(t):
+            elif t.isalnum():
                 expect_operand = False
             else:
                 raise ValueError("expected a number or variable but got '" + t + "'")
@@ -106,18 +101,18 @@ def check_infix(tokens):
 def infix_to_prefix(expr, show_steps=False):
     """
     converts an infix expression (like "(A + B) * C") into prefix / Polish
-    notation (like "* + A B C").
+    notation (like "* + A B C") using a right-to-left scan.
 
     how it works:
-      1. tokenize the expression and reverse the tokens
-      2. scan the reversed tokens (so really we're going right to left)
-      3. since everything is backwards, ')' acts like an opening bracket and
-         '(' acts like a closing bracket
-      4. operators go on a stack, higher precedence ones get popped to output
-      5. reverse the output at the end to get the prefix answer
+      1. tokenize, push ')' on the stack and stick a '(' at the start of the
+         tokens so it's the last thing read when going backwards
+      2. scan the tokens in reverse (right to left). since we're going
+         backwards, ')' acts like the opening bracket and '(' like the closing one
+      3. operands go straight to the output, operators go on the stack and
+         higher precedence ones get popped to the output
+      4. reverse the output at the end to get the prefix answer
 
     if show_steps is True it prints a little trace table of each step.
-    returns the prefix expression as a string with spaces between tokens.
     raises ValueError if the expression is invalid.
     """
     if not parChecker(expr):
@@ -126,65 +121,51 @@ def infix_to_prefix(expr, show_steps=False):
     tokens = tokenize(expr)
     check_infix(tokens)
 
-    # step 1 - reverse the tokens
-    reversed_tokens = []
-    i = len(tokens) - 1
-    while i >= 0:
-        reversed_tokens.append(tokens[i])
-        i = i - 1
+    stack = Stack()
+    out = []
 
-    op_stack = Stack()
-    output = []
+    # step 1: push ')' to stack and add '(' to the start of the expression
+    tokens = ["("] + tokens
+    stack.push(")")
 
     if show_steps:
         print("{:<8}{:<25}{}".format("token", "stack (bottom->top)", "output"))
         print("-" * 55)
 
-    # step 2 - scan through (right to left on the original)
-    for token in reversed_tokens:
-        if is_operand(token):
-            output.append(token)
-
-        elif token == ")":
-            # backwards, so ')' is the opening one
-            op_stack.push(token)
-
-        elif token == "(":
-            # backwards, so '(' is the closing one. pop until we find the ')'
-            while op_stack.peek() != ")":
-                output.append(op_stack.pop())
-            op_stack.pop()  # throw away the ')'
-
-        else:
-            # it's an operator
-            while not op_stack.isEmpty() and op_stack.peek() != ")":
-                top = op_stack.peek()
-                # pop operators that are higher precedence than this one.
-                # ^ is right associative so for ^ we also pop equal ones
-                # (that's what makes a^b^c come out as ^ a ^ b c)
-                if PRECEDENCE[top] > PRECEDENCE[token]:
-                    output.append(op_stack.pop())
-                elif token == "^" and top == "^":
-                    output.append(op_stack.pop())
-                else:
-                    break
-            op_stack.push(token)
+    # step 2: scan right-to-left
+    for ch in reversed(tokens):
+        if ch.isalnum():
+            out.append(ch)
+        elif ch == ")":
+            stack.push(ch)
+        elif ch in PRECEDENCE:
+            # pop operators that are higher precedence than this one.
+            # ^ goes right to left (a^b^c = a^(b^c)) so for ^ we also pop
+            # another ^ that's sitting on top, otherwise it comes out wrong
+            while (
+                not stack.isEmpty()
+                and stack.peek() != ")"
+                and stack.peek() in PRECEDENCE
+                and (PRECEDENCE[stack.peek()] > PRECEDENCE[ch]
+                     or (ch == "^" and stack.peek() == "^"))
+            ):
+                out.append(stack.pop())
+            stack.push(ch)
+        elif ch == "(":
+            # pop everything until the matching ')'
+            while not stack.isEmpty() and stack.peek() != ")":
+                out.append(stack.pop())
+            if not stack.isEmpty() and stack.peek() == ")":
+                stack.pop()
 
         if show_steps:
-            print("{:<8}{:<25}{}".format(token, str(op_stack), " ".join(output)))
+            print("{:<8}{:<25}{}".format(ch, str(stack), " ".join(out)))
 
-    # whatever operators are left go to the output
-    while not op_stack.isEmpty():
-        output.append(op_stack.pop())
+    # flush any remaining operators
+    while not stack.isEmpty():
+        top = stack.pop()
+        if top not in ("(", ")"):
+            out.append(top)
 
-    if show_steps:
-        print("{:<8}{:<25}{}".format("(end)", "", " ".join(output)))
-
-    # step 5 - reverse the output to get the prefix expression
-    prefix = []
-    i = len(output) - 1
-    while i >= 0:
-        prefix.append(output[i])
-        i = i - 1
-
-    return " ".join(prefix)
+    # step 3: reverse the output to get prefix
+    return " ".join(out[::-1])
