@@ -95,6 +95,12 @@ class TestParChecker(unittest.TestCase):
     def test_same_count_wrong_order(self):
         self.assertFalse(parChecker("())("))
 
+    def test_mp4_cases(self):
+        # the same cases from my MP4 run_tests
+        self.assertTrue(parChecker("((()))"))
+        self.assertFalse(parChecker("(()()"))
+        self.assertFalse(parChecker("())"))
+
 
 class TestTokenize(unittest.TestCase):
     """tests for the tokenize and check_infix helpers"""
@@ -146,6 +152,15 @@ class TestInfixToPrefix(unittest.TestCase):
         self.assertEqual(infix_to_prefix("A ^ B ^ C"), "^ A ^ B C")
         self.assertEqual(infix_to_prefix("2 ^ 3 * 4"), "* ^ 2 3 4")
         self.assertEqual(infix_to_prefix("A + B * C ^ D - E"), "- + A * B ^ C D E")
+
+    def test_mp4_cases(self):
+        # the same cases from my MP4 run_tests
+        self.assertEqual(infix_to_prefix("A + B"), "+ A B")
+        self.assertEqual(infix_to_prefix("(A + B) * (C - D)"), "* + A B - C D")
+        self.assertEqual(infix_to_prefix("A * (B - C)"), "* A - B C")
+
+    def test_multi_letter_operands(self):
+        self.assertEqual(infix_to_prefix("AB + 10"), "+ AB 10")
 
     def test_numbers(self):
         self.assertEqual(infix_to_prefix("12 + 345"), "+ 12 345")
@@ -382,7 +397,11 @@ def typed_maze_menu():
 
 
 def print_menu():
-    print("\n========= stack project =========")
+    # header
+    print()
+    print("=" * 40)
+    print("STACK PROJECT")
+    print("=" * 40)
     print("1. check if parentheses are balanced")
     print("2. convert infix to prefix (Polish)")
     print("3. solve the sample maze")
